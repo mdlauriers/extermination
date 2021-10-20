@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/materialize.css') }}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.24/sc-2.0.3/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
+    <script src="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.24/sc-2.0.3/datatables.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body style="overflow-x: hidden;">
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+              <a href="{{ url_for('index') }}" class="brand-logo">Extermination</a>
+              
+              {% if fullname: %}
+                <a href="{{ url_for('edit_user') }}" class="right" style="padding-right: 20px; font-size: 20px;">{{fullname}}</a>
+              {% else: %}
+                <a href="{{ url_for('login') }}" class="right" style="padding-right: 20px; font-size: 20px;">Se connecter</a>
+              {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    
+
+    <footer class="page-footer">
+        <div class="footer-copyright">
+            <div class="container" style="margin-left: 10px;">© 2021 Mathieu Des Lauriers</div>
+        </div>
+    </footer>
+    
+</body>
+</html>

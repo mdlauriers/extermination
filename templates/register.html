@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    .login-form-text {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 0.8rem;
+    }
+</style>
+
+<div id="login-page" class="row" style="top:50%">
+    <div class="col s4 offset-s4 x-depth-4 card-panel">
+        <form class="login-form" action="/register" method="POST">
+            <div class="row">
+                <div class="input-field col s12 center">
+                    <p class="center login-form-text">S'enregistrer au service</p>
+                </div>
+            </div>
+            <div class="row margin">
+                <div class="input-field col s12">
+                    <i class="fas fa-user prefix"></i>
+                    <input id="fullname" name="fullname" type="text">
+                    <label for="fullname" class="center-align">Nom complet</label>
+                </div>
+            </div>
+            <div class="row margin">
+                <div class="input-field col s12">
+                    <i class="fas fa-envelope prefix"></i>
+                    <input id="email" name="email" type="text">
+                    <label for="email" class="center-align">Courriel</label>
+                </div>
+            </div>
+            <div class="row margin">
+                <div class="input-field col s12">
+                    <i class="fas fa-lock prefix"></i>
+                    <input id="password" name="password" type="password">
+                    <label for="password">Mot de passe</label>
+                </div>
+            </div>
+            <div class="row margin">
+                <div class="input-field col s12">
+                    <i class="fas fa-map-marker-alt prefix"></i>
+                    <select id="quartiers" name="liste_quartiers" multiple>
+                        <option value="" disabled>Choisir vos quartiers</option>
+                        {% for quartier in quartiers: %}
+                        <option value="{{quartier[0]}}">{{quartier[0]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {% if error:%}
+            <div class="row margin">
+                <div class="input-field col s12">
+                    <p style="color:red">{{error}}</p>
+                </div>
+            </div>
+            {% endif %}
+            <div class="row">
+                <div class="input-field col s12">
+                    <button type="submit" class="btn waves-effect waves-light col s12">S'enregistrer</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    .login-form-text {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 0.8rem;
+    }
+</style>
+
+<div id="login-page" class="row" style="top:50%">
+    <div class="col s4 offset-s4 x-depth-4 card-panel">
+        <form class="login-form" action="/edit_user" method="POST" enctype="multipart/form-data">
+            <div class="row margin">
+                <h5 class="center">Photo de l'utilisateur</h5>
+                <div class="center">
+                    <img src="/image/{{photo_id}}.png" height="200" width="200">
+                </div>
+            </div>
+            <div class="row margin">
+                <h5 class="center">Modifier les quartiers sélectionnés</h5>
+                <div class="input-field col s12">
+                    <i class="fas fa-map-marker-alt prefix"></i>
+                    <select id="quartiers" name="liste_quartiers" multiple>
+                        <option value="" disabled>Choisir vos quartiers</option>
+                        {% for quartier in quartiers: %}
+                            <option value="{{quartier[0]}}" {% if quartier[0] in selected_quartiers: %} selected {% endif %}>{{quartier[0]}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row margin">
+                <h5 class="center">Téléverser une image</h5>
+                <div class="input-field col s12">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Parcourir</span>
+                            <input id="photo" name="photo" type="file" accept="image/png, image/jpeg" />
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" name="photo" type="text" placeholder="Téléverser un fichier" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <button type="submit" class="btn waves-effect waves-light col s12">Modifier</button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="input-field col s12">
+                <a href="{{url_for('logout')}}" class="btn waves-effect waves-light col s12 red">Se déconnecter</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+</script>
+
+
+{% endblock %}

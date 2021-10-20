@@ -1,0 +1,148 @@
+#%RAML 1.0
+title: Projet de session, Mathieu Des Lauriers
+mediaType: application/json
+version: 1
+types:
+    Quartier:
+        properties:
+            nom_qr:
+                type: string
+                required: true
+    
+    Declaration:
+        properties:
+            no_declaration:
+                type: number
+                required: true
+            date_declaration:
+                type: datetime-only
+                required: true
+            date_insp_vispre:
+                type: date-only
+                required: true
+            nbr_extermin:
+                type: integer
+                required: false
+            date_debuttrait:
+                type: date-only
+                required: false
+            date_fintrait:
+                type: date-only
+                required: false
+            no_qr:
+                type: integer
+                required: true
+            nom_qr:
+                type: string
+                required: true
+            nom_arrond:
+                type: string
+                required: true
+            coord_x:
+                type: string
+                required: true
+            coord_x:
+                type: string
+                required: true
+            longitude:
+                type: string
+                required: true
+            latitude:
+                type: string
+                required: true
+    NewUser:
+        properties:
+            fullname:
+                type: string
+                required: true
+            email:
+                type: string
+                required: true
+            liste_quartiers:
+                type: array
+                items: Quartier
+                minItems: 0
+                uniqueItems: true
+            password:
+                type: string
+                required: true
+    ExistingUser:
+        properties:
+            id:
+                type: integer
+                required: true
+            fullname:
+                type: string
+                required: true
+            email:
+                type: string
+                required: true
+            liste_quartiers:
+                type: array
+                items: Quartier
+                minItems: 0
+                uniqueItems: true
+            password:
+                type: string
+                required: true
+            picture:
+                type: file
+                fileTypes:['image/jpeg', 'image/png']
+       
+/api:
+    /declarations:
+        get:
+            description: Liste des déclarations entre deux dates
+            queryParameters:
+                du:
+                    description: La date a partir de laquelle on débute la recherche. La date doit être dans le format ISO8601.
+                    type: date-only
+                    example: 2020-01-10
+                    required: true
+                au:
+                    description: La date jusqu'à laquelle on termine la recherche. La date doit être dans le format ISO8601.
+                    type: date-only
+                    example: 2020-04-08
+                    required: true
+            responses:
+                200:
+                    description: La liste des déclarations a été correctement envoyée.
+                    body:
+                        application/json:
+                            type: Declaration[]
+                500:
+                    description: Une erreure interne s'est produite. Veuillez réessayer plus tard.
+    /quartiers:
+        get:
+            description: Obtenir tous les quartiers ainsi que le nombre de déclarations par quartier.
+            responses:
+                200:
+                    description: La liste des quartiers avec le nombre de déclarations connues est retournée.
+                500:
+                    description: Une erreure interne s'est produite. Veuillez réessayer plus tard.
+
+    /user:
+        post:
+            description: Ajouter un nouvel utilisateur dans l'application et la base de données.undefined
+            body:
+                application/json:
+                    type: NewUser
+                    example:
+                        fullname: Mathieu Des Lauriers
+                        email: mdlauriers1@gmail.com
+                        liste_quartiers: ["Crémazie", "Parc-Laurier", "Verdun-Centre"]
+                        password: uqam2021
+            responses:
+                201:
+                    description: L'utilisateur à été créé avec succès.
+                    body:
+                        application/json:
+                            type: ExistingUser
+                            example:
+                                id: 1
+                                fullname: Mathieu Des Lauriers
+                                email: mdlauriers1@gmail.com
+                                liste_quartiers: ["Crémazie", "Parc-Laurier", "Verdun-Centre"]
+                                password: uqam2021
+                500:
+                    description: Une erreure interne s'est produite. Veuillez réessayer plus tard.

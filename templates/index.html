@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container center-align">
+    <div class="row valign-wrapper">
+        <div class="col s12">
+            <h4>Rechercher une déclaration</h4>
+        </div>
+    </div>
+    <div class="divider"></div>
+    <form action="/find_declarations" method="POST">
+        <div class="row">
+            <div class="col s6 offset-s3">
+                <input type="text" class="validate" id="search_declarations" name="search_declarations">
+                <label for="search_declarations">Entrez un nom de quartier ou d'arrondissement</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s6 offset-s3">
+                <button type="submit" name="action" class="btn waves-effect waves-light">Rechercher
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="divider"></div>
+    <div id="quick_search_form">
+        <div class="row">
+            <div class="col s12">
+                <h5>Recherche rapide</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s2">
+                <input type="text" class="datepicker" id="search_from_date">
+                <label for="search_from_date">Rechercher à partir du</label>
+            </div>
+            <div class="col s4">
+                <input type="text" class="datepicker" id="search_to_date" disabled>
+                <label for="search_to_date">Rechercher jusqu'à</label>
+            </div>
+            <div class="col s6 offset-s3 red-text error-message hide">
+                <p>La date de départ doit être inférieure ou égale à la date de fin.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s4 offset-s4">
+                <select id="quartiers" name="liste_quartiers">
+                    <option value="" disabled selected>Choisir un quartier</option>
+                    {% for quartier in quartiers: %}
+                    <option value="{{quartier[0]}}">{{quartier[0]}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s6 offset-s3">
+                <button id="quick_search_declarations_button" class="btn waves-effect waves-light">Recherche rapide
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="quick_search_results" style="display:none;">
+        <table id="quick_research_results_table" class="display" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Nom de l'arrondissement</th>
+                    <th>Nom du quartier</th>
+                    <th>Nombre de déclarations dans ce quartier</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+</script>
+
+{% endblock %}
